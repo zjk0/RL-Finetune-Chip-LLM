@@ -11,7 +11,7 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 
 # prepare the model input
-prompt = "Design a 4x4 matrix multiplier with an area smaller than 500μm², and give me the verilog code."
+prompt = "Design a 4x4 matrix multiplier with an area smaller than 500μm², and give me the verilog code and its testbench"
 messages = [
     {"role": "user", "content": prompt}
 ]
