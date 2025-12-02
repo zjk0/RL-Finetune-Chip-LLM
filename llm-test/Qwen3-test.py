@@ -1,6 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-model_name = "Qwen/Qwen3-1.7B"
+model_name = "./llm-models/Qwen3-0.6B"
 
 # load the tokenizer and the model
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -11,7 +11,7 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 
 # prepare the model input
-prompt = "Design a 4x4 matrix multiplier with an area smaller than 500μm², and give me the verilog code and its testbench"
+prompt = "如果我发烧了，我可以吃点什么药？"
 messages = [
     {"role": "user", "content": prompt}
 ]
