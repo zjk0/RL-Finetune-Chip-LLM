@@ -6,6 +6,7 @@ import evaluate
 import json
 import wandb
 import os
+from datetime import datetime
 
 def dataset_to_json(dataset, dataset_path):
     with open(dataset_path, "w", encoding = "utf-8") as fp:
@@ -57,7 +58,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_path)
 dataset_path = "./datasets/krisfu-delicate-medical-data"
 dataset = datasets.load_dataset(dataset_path)
 # print(dataset)
-dataset_dir = "./chip-llm/finetune/Qwen3-0.6B-medical/dataset"
+dataset_dir = "./chip-llm/finetune/Qwen3-0.6B-medical-full_param/dataset"
 dataset = preprocess_dataset(dataset, dataset_dir)
 
 # print(dataset)
@@ -66,8 +67,11 @@ tokenized_dataset = dataset.map(tokenize_func, batched = True, batch_size = 32)
 dataset.cleanup_cache_files()
 # print(tokenized_dataset)
 
+time = datetime.now()
+time_str = time.strftime("%Y-%m%d-%H_%M_%S")
+
 training_args = TrainingArguments(
-    output_dir = "./chip-llm/finetune/Qwen3-0.6B-medical/output", 
+    output_dir = "./chip-llm/finetune/Qwen3-0.6B-medical-full_param/output", 
     eval_strategy = "steps", 
     eval_steps = 100, 
     num_train_epochs = 5, 
@@ -78,7 +82,8 @@ training_args = TrainingArguments(
     gradient_accumulation_steps = 4, 
     per_device_train_batch_size = 1, 
     per_device_eval_batch_size = 1, 
-    save_total_limit = 1
+    save_total_limit = 1, 
+    run_name = f"Qwen3-0.6B-medical-full_param-sft-{time_str}"
 )
 
 trainer = Trainer(
