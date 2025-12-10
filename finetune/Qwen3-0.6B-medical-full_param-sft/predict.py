@@ -1,6 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-model_path = "./chip-llm/finetune/Qwen3-0.6B-medical-full_param/output/checkpoint-1122"
+model_path = "./chip-llm/finetune/Qwen3-0.6B-medical-full_param-sft/output/checkpoint-1122"
 model = AutoModelForCausalLM.from_pretrained(model_path)
 tokenizer_path = "./llm-models/Qwen3-0.6B"
 tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)

@@ -8,6 +8,15 @@ import wandb
 import os
 from datetime import datetime
 
+import torch
+from transformers.trainer_utils import has_length
+from transformers.trainer_pt_utils import LengthGroupedSampler
+# from transformers.trainer_utils import is_datasets_available
+from transformers.utils import is_datasets_available
+from torch.utils.data import RandomSampler
+from typing import Optional
+from torch.utils.data import Dataset
+
 def dataset_to_json(dataset, dataset_path):
     with open(dataset_path, "w", encoding = "utf-8") as fp:
         for data in dataset:
@@ -58,7 +67,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_path)
 dataset_path = "./datasets/krisfu-delicate-medical-data"
 dataset = datasets.load_dataset(dataset_path)
 # print(dataset)
-dataset_dir = "./chip-llm/finetune/Qwen3-0.6B-medical-full_param/dataset"
+dataset_dir = "./chip-llm/finetune/Qwen3-0.6B-medical-full_param-sft/dataset"
 dataset = preprocess_dataset(dataset, dataset_dir)
 
 # print(dataset)
@@ -71,7 +80,7 @@ time = datetime.now()
 time_str = time.strftime("%Y-%m%d-%H_%M_%S")
 
 training_args = TrainingArguments(
-    output_dir = "./chip-llm/finetune/Qwen3-0.6B-medical-full_param/output", 
+    output_dir = "./chip-llm/finetune/Qwen3-0.6B-medical-full_param-sft/output", 
     eval_strategy = "steps", 
     eval_steps = 100, 
     num_train_epochs = 5, 
@@ -86,11 +95,48 @@ training_args = TrainingArguments(
     run_name = f"Qwen3-0.6B-medical-full_param-sft-{time_str}"
 )
 
-trainer = Trainer(
+class myTrainer(Trainer):
+    def _get_train_sampler(self, train_dataset: Optional[Dataset] = None) -> Optional[torch.utils.data.Sampler]:
+        if train_dataset is None:
+            train_dataset = self.train_dataset
+        if train_dataset is None or not has_length(train_dataset):
+            return None
+
+        # Build the sampler.
+        if self.args.group_by_length:
+            if is_datasets_available() and isinstance(train_dataset, datasets.Dataset):
+                lengths = (
+                    train_dataset[self.args.length_column_name]
+                    if self.args.length_column_name in train_dataset.column_names
+                    else None
+                )
+            else:
+                lengths = None
+            model_input_name = (
+                self.processing_class.model_input_names[0] if self.processing_class is not None else None
+            )
+            return LengthGroupedSampler(
+                self.args.train_batch_size * self.args.gradient_accumulation_steps,
+                dataset=train_dataset,
+                lengths=lengths,
+                model_input_name=model_input_name,
+            )
+
+        else:
+            return RandomSampler(train_dataset, replacement = True)
+
+trainer = myTrainer(
     model = model, 
     train_dataset = tokenized_dataset["train"], 
     eval_dataset = tokenized_dataset["test"], 
     args = training_args
 )
+
+# train_loader = trainer.get_train_dataloader()
+# print(train_loader.sampler)
+# # print(getattr(train_loader, "replacement"))
+# train_sampler = trainer._get_train_sampler()
+# print(train_sampler)
+# print(getattr(train_sampler, "replacement"))
 
 trainer.train()
