@@ -1,0 +1,11 @@
+### model
+model_name_or_path: /root/autodl-tmp/ChipLLM/llm-models/Qwen3-1.7B
+adapter_name_or_path: /root/autodl-tmp/ChipSeek-R1/output/Qwen3-1.7B/sft/lora3
+template: qwen
+trust_remote_code: true
+
+### export
+export_dir: output/Qwen3-1.7B/merge_lora
+export_size: 5
+export_device: auto  # choices: [cpu, auto]
+export_legacy_format: false

@@ -1,0 +1,37 @@
+Synthesis and PPA Analysis Report
+Date: Fri Jan  9 04:25:25 PM CST 2026
+
+Input Design: /root/autodl-tmp/ChipSeek-R1/ppa_test/test/design.v
+Top Module: comparator_3bit
+Synthesized Design: design_nangate.v
+
+=== PPA Metrics ===
+{
+  "power": {
+    "report": "Power analysis completed successfully with NanGate 45nm library",
+    "total_power_W": 5.69e-06,
+    "internal_power_W": 3.53e-06,
+    "switching_power_W": 1.86e-06,
+    "leakage_power_W": 2.96e-07,
+    "details": "See power_report.txt for full details"
+  },
+  "area": {
+    "design_area_um2": 11.970000,
+    "technology": "NanGate 45nm",
+    "total_cells": 69,
+    "note": "Combination of Yosys synthesis and OpenROAD analysis"
+  },
+  "performance": {
+    "design_type": "Combinational logic",
+    "max_path_delay_ns": 0.15,
+    "clock_period_ns": -1,
+    "timing_met": false
+  }
+}
+
+=== Cell Usage Statistics ===
+Total cells: 69
+Design area: 11.970000
+Design type: Combinational logic
+
+=== Cell Breakdown ===

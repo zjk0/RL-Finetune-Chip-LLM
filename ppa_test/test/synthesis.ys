@@ -1,0 +1,26 @@
+# Read the Verilog design
+read_verilog -sv /root/autodl-tmp/ChipSeek-R1/ppa_test/test/design.v
+# read_verilog /root/autodl-tmp/ChipSeek-R1/ppa_test/test/design.v
+rename -unescape
+
+# Elaborate the design hierarchy
+hierarchy -check -top comparator_3bit
+
+# Perform basic synthesis operations
+proc; opt; fsm; opt; memory; opt
+
+# Map to internal cell library
+techmap; opt
+
+# Map to NanGate 45nm library
+dfflibmap -liberty /root/autodl-tmp/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+abc -liberty /root/autodl-tmp/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+
+# Clean up
+opt; clean
+
+# Write the synthesized design with better naming
+write_verilog -noattr -nohex -nodec design_nangate.v
+
+# Generate statistics
+stat -liberty /root/autodl-tmp/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib

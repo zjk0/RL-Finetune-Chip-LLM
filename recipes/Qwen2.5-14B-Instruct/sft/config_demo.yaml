@@ -1,0 +1,47 @@
+# Config for 16 nodes of 8 H100s with FSDP1
+# Model arguments
+model_name_or_path: /public/Qwen2.5-14B-Instruct
+model_revision: main
+torch_dtype: bfloat16
+attn_implementation: flash_attention_2
+
+# Data training arguments
+dataset_name: /public/data/verilog_reasoning_data_sft
+dataset_num_proc: 48
+
+# SFT trainer config
+bf16: true
+do_eval: false
+eval_strategy: 'no'
+gradient_accumulation_steps: 8
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+hub_always_push: true
+hub_model_id: Qwen2.5-14B-Verilog-sft
+hub_strategy: every_save
+learning_rate: 1.0e-05
+log_level: info
+logging_steps: 1
+logging_strategy: steps
+lr_scheduler_type: cosine_with_min_lr
+lr_scheduler_kwargs:
+  min_lr_rate: 0.1
+packing: false
+max_grad_norm: 0.2
+max_length: 16384 # we were unable to train at 32k due to OOM. See https://github.com/huggingface/transformers/issues/35983 for context parallelism support.
+max_steps: -1
+num_train_epochs: 3
+output_dir: /root/model/Qwen2.5-14B-Verilog-sft
+overwrite_output_dir: true
+per_device_eval_batch_size: 1
+per_device_train_batch_size: 1
+push_to_hub: false
+report_to:
+- wandb
+save_only_model: true # needed to bypass FSDP errors with saving paged optimizers
+save_strategy: epoch
+save_total_limit: 3
+seed: 42
+use_liger: true # fails on multi-node
+warmup_ratio: 0.03

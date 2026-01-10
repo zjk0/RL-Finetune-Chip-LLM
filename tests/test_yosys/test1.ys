@@ -1,0 +1,6 @@
+read_verilog -sv /root/autodl-tmp/ChipSeek-R1/tests/test_yosys/design_1.v
+rename -unescape
+proc; opt
+clean; opt
+write_verilog -noattr -nohex -nodec /root/autodl-tmp/ChipSeek-R1/tests/test_yosys/design_1.v
+

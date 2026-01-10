@@ -1,0 +1,78 @@
+# Model arguments
+# model_name_or_path: /root/autodl-tmp/ChipLLM/llm-models/Qwen3-1.7B
+model_name_or_path: /root/autodl-tmp/ChipSeek-R1/output/Qwen3-1.7B/merge_lora
+model_revision: main
+torch_dtype: bfloat16
+attn_implementation: flash_attention_2
+use_peft: True
+lora_r: 8
+lora_alpha: 16
+lora_dropout: 0.0
+lora_target_modules: [
+  "k_proj",
+  "gate_proj",
+  "up_proj",
+  "down_proj",
+  "v_proj",
+  "q_proj",
+  "o_proj"
+]
+# lora_modules_to_save: True
+
+# Data training arguments
+dataset_name: /root/autodl-tmp/ChipSeek-R1/data/grpo-data
+# dataset_configs:
+# - default
+system_prompt: "You are a helpful AI Assistant that provides well-reasoned and detailed responses. You first think about the reasoning process as an internal monologue and then provide the user with the answer. Respond in the following format: \n<think>\n...\n</think>\n<answer>\n...\n</answer>"
+# system_prompt: "You are a helpful AI Assistant that provides well-reasoned and detailed responses. You first think about the reasoning process as an internal monologue and then provide the user with the answer."
+
+# GRPO trainer config
+beta: 0.05
+bf16: true
+use_vllm: true
+# vllm_device: auto
+vllm_gpu_memory_utilization: 0.40
+do_eval: false
+gradient_accumulation_steps: 4
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+hub_model_id: Qwen3-1.7B-Verilog-sft-GRPO-ppa
+hub_strategy: every_save
+learning_rate: 8.0e-07
+log_completions: true
+log_level: info
+logging_first_step: true
+logging_steps: 1
+logging_strategy: steps
+lr_scheduler_type: cosine_with_min_lr
+lr_scheduler_kwargs:
+  min_lr_rate: 0.1
+# max_prompt_length: 1024
+max_completion_length: 5120
+max_steps: -1
+num_generations: 4
+num_train_epochs: 3
+output_dir: /root/autodl-tmp/ChipSeek-R1/output/Qwen3-1.7B/rl/grpo-ppa-test
+overwrite_output_dir: true
+per_device_train_batch_size: 1
+push_to_hub: false
+report_to:
+- wandb
+reward_funcs:
+- verilog_code
+- format
+reward_weights:
+- 1.0
+- 0.2
+save_strategy: "steps"
+save_steps: 50
+save_total_limit: 1
+seed: 42
+temperature: 1.0
+warmup_ratio: 0.03
+vllm_mode: "colocate"
+vllm_max_model_length: 8192
+# vllm_server_timeout: 1200.0
+# vllm_server_base_url: "http://localhost:8080"
+# vllm_server_port: 8080

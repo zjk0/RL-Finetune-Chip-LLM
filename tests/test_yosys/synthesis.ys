@@ -1,0 +1,9 @@
+read_verilog -sv /root/autodl-tmp/ChipSeek-R1/tests/test_yosys/design.v
+hierarchy -check -top comparator_3bit
+proc; opt; fsm; opt; memory; opt
+techmap; opt
+dfflibmap -liberty /root/autodl-tmp/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+abc -liberty /root/autodl-tmp/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+opt; clean
+write_verilog -noattr -nohex -nodec /root/autodl-tmp/ChipSeek-R1/tests/test_yosys/design_1.v
+stat -liberty /root/autodl-tmp/OpenROAD-flow-scripts/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
