@@ -1,0 +1,160 @@
+import os
+import json
+import subprocess
+import argparse
+import re
+import networkx as nx
+from tqdm import tqdm
+from pathlib import Path
+
+def auto_top(verilog_code):
+    instance_graph = nx.DiGraph()
+    note_pattern = r"(//[^\n]*|/\*[\s\S]*?\*/)"
+    new_code = re.sub(note_pattern, "", verilog_code)
+    new_code = re.sub(r"(?:\s*?\n)+", "\n", new_code)
+    module_def_pattern = r"(module\s+)([a-zA-Z_][a-zA-Z0-9_\$]*|\\[!-~]+?(?=\s))(\s*\#\s*\([\s\S]*?\))?(\s*(?:\([^;]*\))?\s*;)([\s\S]*?)?(endmodule)"
+    module_defs = re.findall(module_def_pattern, new_code, re.DOTALL)
+    if not module_defs:
+        raise Exception("No module found in auto_top().")
+    module_names = [m[1] for m in module_defs]
+    instance_graph.add_nodes_from(module_names)
+    for mod in module_defs:
+        this_mod_name = mod[1]
+        this_mod_body = mod[4]
+        for submod in module_names:
+            if submod != this_mod_name:
+                module_instance_pattern = rf"({re.escape(submod)})(\s)(\s*\#\s*\([\s\S]*?\))?([a-zA-Z_][a-zA-Z0-9_\$]*|\\[!-~]+?(?=\s))(\s*(?:\([^;]*\))?\s*;)"
+                module_instances = re.findall(
+                    module_instance_pattern, this_mod_body, re.DOTALL
+                )
+                if module_instances:
+                    instance_graph.add_edge(this_mod_name, submod)
+    instance_tree_size = {}
+    for n in instance_graph.nodes:
+        if instance_graph.in_degree(n) == 0:
+            instance_tree_size[n] = nx.descendants(instance_graph, n)
+    top_module = max(instance_tree_size, key=instance_tree_size.get)
+    return top_module
+
+def ppa_compute(code_folder, verilog_code_file, module_name):
+    try:
+        process = subprocess.run(
+            ["bash", "-c", 
+                f'cd {code_folder} && export PATH="/home/kai/none/oss-cad-suite/bin:$PATH" && TOP_MODULE={module_name} INPUT_VERILOG={code_folder}/{verilog_code_file} {code_folder}/run_synthesis_ppa.sh'],
+            capture_output=True,
+            text=True,
+            timeout=600
+        )
+        
+        if process.returncode != 0:
+            print("Error in running synthesis and PPA script:", process.stderr)
+            return {"power": -1, "performance": -1, "area": -1}
+        
+        process = subprocess.run(
+            ['cat', f'{code_folder}/ppa_metrics.json'],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        
+        if process.returncode != 0:
+            return {"power": -1, "performance": -1, "area": -1}
+        
+        ppa_result = json.loads(process.stdout)
+        power = ppa_result.get("power", {}).get("total_power_W", 0.0)
+        performance = ppa_result.get("performance", {}).get("max_path_delay_ns", 0.0)
+        area = ppa_result.get("area", {}).get("design_area_um2", 0.0)
+        
+        return {"power": power, "performance": performance, "area": area}
+    except Exception as e:
+        print("Exception occurred during PPA computation:", str(e))
+        return {"power": -1, "performance": -1, "area": -1}
+    finally:
+        subprocess.run(
+            ["rm", "-r", code_folder], 
+            capture_output = True, 
+            text = True, 
+            timeout = 5
+        )
+
+human_path = "/home/kai/none/CodeV-R1/test/testbench/VerilogEval_v1.0.0/data/VerilogEval_Human.jsonl"
+machine_path = "/home/kai/none/CodeV-R1/test/testbench/VerilogEval_v1.0.0/data/VerilogEval_Machine.jsonl"
+human_prompt_path = "/home/kai/none/CodeV-R1/test/testbench/VerilogEval_v1.0.0/descriptions/VerilogDescription_Human.jsonl"
+machine_prompt_path = "/home/kai/none/CodeV-R1/test/testbench/VerilogEval_v1.0.0/descriptions/VerilogDescription_Machine.jsonl"
+
+with open(human_path, "r") as f:
+    human_data = [json.loads(line.strip()) for line in f]
+with open(machine_path, "r") as f:
+    machine_data = [json.loads(line.strip()) for line in f]
+with open(human_prompt_path, "r") as f:
+    human_prompt_data = [json.loads(line.strip()) for line in f]
+with open(machine_prompt_path, "r") as f:
+    machine_prompt_path = [json.loads(line.strip()) for line in f]
+    
+verilog_eval_v1_human = []
+verilog_eval_v1_machine = []
+
+for data, prompt in zip(human_data, human_prompt_data):
+    module_define = data["prompt"]
+    module_content = data["canonical_solution"]
+    reference_code = f"{module_define}{module_content}"
+    
+    ppa_folder = "/home/kai/none/CodeV-R1/test/ppa_test"
+    if not os.path.exists(ppa_folder):
+        os.makedirs(ppa_folder)
+    
+    subprocess.run(
+        ["cp", "/home/kai/none/CodeV-R1/run_synthesis_ppa.sh", ppa_folder], 
+        capture_output = True, 
+        text = True, 
+        timeout = 5
+    )
+    
+    top_module = auto_top(reference_code)
+    reference_code_path = f"{ppa_folder}/reference_code.v"
+    with open(reference_code_path, "w") as f:
+        f.write(reference_code)
+    ppa_result = ppa_compute(ppa_folder, "reference_code.v", top_module)
+    
+    verilog_eval_v1_human.append({
+        "top_module": data["task_id"], 
+        "prompt": prompt["detail_description"], 
+        "reference_code": reference_code, 
+        "testbench": data["test"],
+        "ppa": ppa_result
+    })
+    
+for data, prompt in zip(machine_data, machine_prompt_path):
+    module_define = data["prompt"]
+    module_content = data["canonical_solution"]
+    reference_code = f"{module_define}{module_content}"
+    
+    ppa_folder = "/home/kai/none/CodeV-R1/test/ppa_test"
+    if not os.path.exists(ppa_folder):
+        os.makedirs(ppa_folder)
+    
+    subprocess.run(
+        ["cp", "/home/kai/none/CodeV-R1/run_synthesis_ppa.sh", ppa_folder], 
+        capture_output = True, 
+        text = True, 
+        timeout = 5
+    )
+    
+    top_module = auto_top(reference_code)
+    reference_code_path = f"{ppa_folder}/reference_code.v"
+    with open(reference_code_path, "w") as f:
+        f.write(reference_code)
+    ppa_result = ppa_compute(ppa_folder, "reference_code.v", top_module)
+    
+    verilog_eval_v1_machine.append({
+        "top_module": data["task_id"], 
+        "prompt": prompt["detail_description"], 
+        "reference_code": reference_code, 
+        "testbench": data["test"],
+        "ppa": ppa_result
+    })
+    
+with open("/home/kai/none/CodeV-R1/test/testbench/VerilogEval_v1.0.0/verilog_eval_v1_human.json", "w") as f:
+    json.dump(verilog_eval_v1_human, f, indent = 4)
+with open("/home/kai/none/CodeV-R1/test/testbench/VerilogEval_v1.0.0/verilog_eval_v1_machine.json", "w") as f:
+    json.dump(verilog_eval_v1_machine, f, indent = 4)
