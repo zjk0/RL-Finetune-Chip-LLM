@@ -5,7 +5,7 @@ import json
 import math
 import re
 import uuid
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict
 
 from latex2sympy2_extended import NormalizationConfig
@@ -16,6 +16,12 @@ import os
 import base64
 
 from .utils import is_e2b_available
+
+import sys
+sys.path.append("/root/autodl-tmp/ChipSeek-R1")
+from testbench_verify.eval_codev import verify_one_sample
+import pickle
+import networkx as nx
 
 
 if is_e2b_available():
@@ -74,8 +80,8 @@ def accuracy_reward(completions, solution, **kwargs):
 
 def format_reward(completions, **kwargs):
     """Reward function that checks if the reasoning process is enclosed within <think> and </think> tags, while the final answer is enclosed within <answer> and </answer> tags."""
-    pattern1 = r"^<think>\n.*?\n</think>\n<answer>\n.*?\n</answer>$"
-    pattern2 = r"^<think>\n.*?\n</think>\n\n<answer>\n.*?\n</answer>$"
+    pattern1 = r"^<think>.*?</think>\n<answer>.*?</answer>$"
+    pattern2 = r"^<think>.*?</think>\n\n<answer>.*?</answer>$"
     completion_contents = [completion[0]["content"] for completion in completions]
     matches1 = [re.match(pattern1, content, re.DOTALL | re.MULTILINE) for content in completion_contents]
     matches2 = [re.match(pattern2, content, re.DOTALL | re.MULTILINE) for content in completion_contents]
@@ -400,12 +406,12 @@ def extract_code(completion: str) -> str:
     return extracted_answer
 
 def extract_verilog(completion: str) -> str:
-    pattern = re.compile(r"<answer>\n(.*?)\n</answer>", re.DOTALL)
+    pattern = re.compile(r"```verilog\n(.*?)\n```", re.DOTALL)
     matches = pattern.findall(completion)
     extracted_answer = matches[-1] if len(matches) >= 1 else ""
     
     if extracted_answer == "":
-        pattern = re.compile(r"```verilog\n(.*?)\n```", re.DOTALL)
+        pattern = re.compile(r"<answer>\n(.*?)\n</answer>", re.DOTALL)
         matches = pattern.findall(completion)
         extracted_answer = matches[-1] if len(matches) >= 1 else ""
     
@@ -676,6 +682,255 @@ def verilog_code_reward(completions, **kwargs) -> list[float]:
 
     return rewards
 
+
+def verilog_code_reward_codev(completions, **kwargs):
+    verilog_code_list = [extract_verilog(completion[-1]["content"]) for completion in completions]
+    ground_truth_list = []
+    for i in range(len(completions)):
+        ground_truth = kwargs["reward_model"][i]["ground_truth"]
+        ground_truth = pickle.loads(ground_truth)
+        ground_truth_list.append(ground_truth['answer'])
+        
+    rewards = [0.0] * len(completions)
+    for i, (verilog_code, ground_truth) in enumerate(zip(verilog_code_list, ground_truth_list)):
+        result = verify_one_sample(ground_truth, verilog_code)
+        if result["correct"] == "True":
+            rewards[i] = 1.0
+        elif result["correct"] == "Partially True":
+            rewards[i] = 0.2
+        else:
+            rewards[i] = 0.0
+    
+    return rewards
+
+def verilog_code_reward_codev_thread(completions, **kwargs):
+    verilog_code_list = [extract_verilog(completion[-1]["content"]) for completion in completions]
+    ground_truth_list = []
+    for i in range(len(completions)):
+        ground_truth = kwargs["reward_model"][i]["ground_truth"]
+        ground_truth = pickle.loads(ground_truth)
+        ground_truth_list.append(ground_truth['answer'])
+        
+    rewards = [0.0] * len(completions)
+    with ThreadPoolExecutor(max_workers = 6) as executor:
+        futures = {executor.submit(verify_one_sample, ground_truth, verilog_code): i for i, (verilog_code, ground_truth) in enumerate(zip(verilog_code_list, ground_truth_list))}
+        for future in as_completed(futures):
+            i = futures[future]
+            result = future.result()
+            if result["correct"] == "True":
+                rewards[i] = 1.0
+            elif result["correct"] == "Partially True":
+                rewards[i] = 0.2
+            else:
+                rewards[i] = 0.0
+                
+    return rewards
+
+def auto_top(verilog_code):
+    instance_graph = nx.DiGraph()
+    note_pattern = r"(//[^\n]*|/\*[\s\S]*?\*/)"
+    new_code = re.sub(note_pattern, "", verilog_code)
+    new_code = re.sub(r"(?:\s*?\n)+", "\n", new_code)
+    module_def_pattern = r"(module\s+)([a-zA-Z_][a-zA-Z0-9_\$]*|\\[!-~]+?(?=\s))(\s*\#\s*\([\s\S]*?\))?(\s*(?:\([^;]*\))?\s*;)([\s\S]*?)?(endmodule)"
+    module_defs = re.findall(module_def_pattern, new_code, re.DOTALL)
+    if not module_defs:
+        raise Exception("No module found in auto_top().")
+    module_names = [m[1] for m in module_defs]
+    instance_graph.add_nodes_from(module_names)
+    for mod in module_defs:
+        this_mod_name = mod[1]
+        this_mod_body = mod[4]
+        for submod in module_names:
+            if submod != this_mod_name:
+                module_instance_pattern = rf"({re.escape(submod)})(\s)(\s*\#\s*\([\s\S]*?\))?([a-zA-Z_][a-zA-Z0-9_\$]*|\\[!-~]+?(?=\s))(\s*(?:\([^;]*\))?\s*;)"
+                module_instances = re.findall(
+                    module_instance_pattern, this_mod_body, re.DOTALL
+                )
+                if module_instances:
+                    instance_graph.add_edge(this_mod_name, submod)
+    instance_tree_size = {}
+    for n in instance_graph.nodes:
+        if instance_graph.in_degree(n) == 0:
+            instance_tree_size[n] = nx.descendants(instance_graph, n)
+    top_module = max(instance_tree_size, key=instance_tree_size.get)
+    return top_module
+        
+def ppa_compute(code_folder, verilog_code, log = False):
+    id = uuid.uuid4().hex
+    task_folder = os.path.join(code_folder, f"{id}")
+    os.makedirs(task_folder, exist_ok = True)
+    subprocess.run(
+        ["cp", "/root/autodl-tmp/ChipSeek-R1/src/ppa_script/run_synthesis_ppa.sh", task_folder], 
+        capture_output = True, 
+        text = True, 
+        timeout = 5
+    )
+    verilog_code_path = os.path.join(task_folder, "design.v")
+    with open(verilog_code_path, "w") as f:
+        f.write(verilog_code)
+    module_name = auto_top(verilog_code)
+    
+    try:
+        script_path = os.path.join(task_folder, "run_synthesis_ppa.sh")
+        env = os.environ.copy()
+        env["PATH"] = f'/root/autodl-tmp/oss-cad-suite/bin:{env["PATH"]}'
+        env["TOP_MODULE"] = module_name
+        env["INPUT_VERILOG"] = verilog_code_path
+        process = subprocess.run(
+            [script_path], 
+            cwd = task_folder, 
+            env = env, 
+            capture_output = True, 
+            text = True, 
+            timeout = 600
+        )
+        # process = subprocess.run(
+        #     ["bash", "-c", 
+        #         f'cd {task_folder} && export PATH="/root/autodl-tmp/oss-cad-suite/bin:$PATH" && TOP_MODULE={module_name} INPUT_VERILOG={verilog_code_path} {task_folder}/run_synthesis_ppa.sh'],
+        #     capture_output = True,
+        #     text = True,
+        #     timeout = 600
+        # )
+        
+        if process.returncode != 0:
+            print("Error in running synthesis and PPA script:", process.stderr) if log == True else None
+            return {"power": -1, "performance": -1, "area": -1, "sysnthesis": False}
+        
+        process = subprocess.run(
+            ["cat", f"{task_folder}/synthesis.log"],
+            capture_output = True,
+            text = True,
+            timeout = 5
+        )
+        if process.returncode != 0:
+            print("Error while reading synthesis.log:", process.stderr) if log == True else None
+            return {"power": -1, "performance": -1, "area": -1, "sysnthesis": False}
+        
+        if "ERROR" in process.stdout:
+            print("Synthesis error details:\n", process.stdout) if log == True else None
+            return {"power": -1, "performance": -1, "area": -1, "sysnthesis": False}
+        else:
+            process = subprocess.run(
+                ['cat', f'{task_folder}/ppa_metrics.json'],
+                capture_output = True,
+                text = True,
+                timeout = 5
+            )
+            
+            if process.returncode != 0:
+                print("Error while reading ppa_metrics.json:", process.stderr) if log == True else None
+                return {"power": -1, "performance": -1, "area": -1, "sysnthesis": True}
+            
+            ppa_result = json.loads(process.stdout)
+            power = ppa_result.get("power", {}).get("total_power_W", 0.0)
+            performance = ppa_result.get("performance", {}).get("max_path_delay_ns", 0.0)
+            area = ppa_result.get("area", {}).get("design_area_um2", 0.0)
+            
+            return {"power": power, "performance": performance, "area": area, "sysnthesis": True}
+    except Exception as e:
+        print("Error:", str(e)) if log == True else None
+        return {"power": -1, "performance": -1, "area": -1, "sysnthesis": False}
+    finally:
+        subprocess.run(
+            ["rm", "-r", task_folder],
+            capture_output = True,
+            text = True,
+            timeout = 5
+        )
+
+def verilog_code_reward_codev_ppa(completions, **kwargs):
+    verilog_code_list = [extract_verilog(completion[-1]["content"]) for completion in completions]
+    ground_truth_list = []
+    for i in range(len(completions)):
+        ground_truth = kwargs["reward_model"][i]["ground_truth"]
+        ground_truth = pickle.loads(ground_truth)
+        ground_truth_list.append(ground_truth['answer'])
+    ground_truth_ppa_list = kwargs["ppa"]
+    ppa_folder = "/root/autodl-tmp/ChipSeek-R1/ppa_reward"
+    os.makedirs(ppa_folder, exist_ok = True)
+        
+    rewards = [0.0] * len(completions)
+    for i, (verilog_code, ground_truth, ground_truth_ppa) in enumerate(zip(verilog_code_list, ground_truth_list, ground_truth_ppa_list)):
+        result = verify_one_sample(ground_truth, verilog_code)
+        if result["correct"] == "True":
+            rewards[i] += 1.0
+        elif result["correct"] == "Partially True":
+            rewards[i] += 0.2
+        else:
+            rewards[i] = 0.0
+            
+        if rewards[i] == 1.0:
+            ppa_result = ppa_compute(ppa_folder, verilog_code)
+            if ppa_result["sysnthesis"] == True:
+                rewards[i] += 0.4
+                if ppa_result["power"] != -1 and ppa_result["performance"] != -1 and ppa_result["area"] != -1:
+                    if ground_truth_ppa["power"] * ground_truth_ppa["performance"] * ground_truth_ppa["area"] == 0:
+                        rewards[i] += 0.1
+                    else:
+                        if ppa_result["power"] * ppa_result["performance"] * ppa_result["area"] != 0:
+                            power_ratio = ground_truth_ppa["power"] / ppa_result["power"]
+                            performance_ratio = ground_truth_ppa["performance"] / ppa_result["performance"]
+                            area_ratio = ground_truth_ppa["area"] / ppa_result["area"]
+                            # rewards[i] += math.log(power_ratio * performance_ratio * area_ratio)
+                            value = power_ratio * performance_ratio * area_ratio
+                            value_geo_mean = value ** (1 / 3)
+                            rewards[i] += max(0.01, min(value_geo_mean - 1.0, 0.6))
+            
+    return rewards
+
+def verilog_code_reward_codev_ppa_thread(completions, **kwargs):
+    verilog_code_list = [extract_verilog(completion[-1]["content"]) for completion in completions]
+    ground_truth_list = []
+    for i in range(len(completions)):
+        ground_truth = kwargs["reward_model"][i]["ground_truth"]
+        ground_truth = pickle.loads(ground_truth)
+        ground_truth_list.append(ground_truth['answer'])
+    ground_truth_ppa_list = kwargs["ppa"]
+    ppa_folder = "/root/autodl-tmp/ChipSeek-R1/tests/ppa_test"
+    os.makedirs(ppa_folder, exist_ok = True)
+    
+    rewards = [0.0] * len(completions)
+    with ThreadPoolExecutor(max_workers = 6) as executor:
+        futures = {
+            executor.submit(verify_one_sample, ground_truth, verilog_code): i 
+            for i, (verilog_code, ground_truth) in enumerate(zip(verilog_code_list, ground_truth_list))
+        }
+        for future in as_completed(futures):
+            i = futures[future]
+            result = future.result()
+            if result["correct"] == "True":
+                rewards[i] += 1.0
+            elif result["correct"] == "Partially True":
+                rewards[i] += 0.2
+            else:
+                rewards[i] = 0.0
+                
+    with ThreadPoolExecutor(max_workers = 6) as executor:
+        futures = {
+            executor.submit(ppa_compute, ppa_folder, verilog_code): i 
+            for i, verilog_code in enumerate(verilog_code_list) 
+            if rewards[i] == 1.0
+        }
+        for future in as_completed(futures):
+            i = futures[future]
+            ppa_result = future.result()
+            ground_truth_ppa = ground_truth_ppa_list[i]
+            if ppa_result["sysnthesis"] == True:
+                rewards[i] += 0.4
+                if ppa_result["power"] != -1 and ppa_result["performance"] != -1 and ppa_result["area"] != -1:
+                    if ground_truth_ppa["power"] * ground_truth_ppa["performance"] * ground_truth_ppa["area"] == 0:
+                        rewards[i] += 0.1
+                    else:
+                        if ppa_result["power"] * ppa_result["performance"] * ppa_result["area"] != 0:
+                            power_ratio = ground_truth_ppa["power"] / ppa_result["power"]
+                            performance_ratio = ground_truth_ppa["performance"] / ppa_result["performance"]
+                            area_ratio = ground_truth_ppa["area"] / ppa_result["area"]
+                            # rewards[i] += math.log(power_ratio * performance_ratio * area_ratio)
+                            value = power_ratio * performance_ratio * area_ratio
+                            value_geo_mean = value ** (1 / 3)
+                            rewards[i] += max(0.01, min(value_geo_mean - 1.0, 0.6))
+                                
+    return rewards
 
 def verilog_ppa_reward(completions, **kwargs) -> list[float]:
     """Reward function that evaluates Verilog code snippets for Power, Performance, and Area (PPA) using a Docker container.

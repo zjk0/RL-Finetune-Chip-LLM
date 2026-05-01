@@ -1,0 +1,207 @@
+[
+    {
+        "score": 1.5905583694260583,
+        "detail": [
+            {
+                "task_id": "up_down_counter",
+                "score": 2.6781398454920344
+            },
+            {
+                "task_id": "counter_12",
+                "score": 2.466120617110799
+            },
+            {
+                "task_id": "JC_counter",
+                "score": 1.7419774011299438
+            },
+            {
+                "task_id": "ring_counter",
+                "score": 2.2013428163464033
+            },
+            {
+                "task_id": "fsm",
+                "score": 0.9699999999999998
+            },
+            {
+                "task_id": "sequence_detector",
+                "score": 0.0
+            },
+            {
+                "task_id": "LFSR",
+                "score": 0.0
+            },
+            {
+                "task_id": "right_shifter",
+                "score": 2.3999999999999995
+            },
+            {
+                "task_id": "barrel_shifter",
+                "score": 0.18000000000000002
+            },
+            {
+                "task_id": "asyn_fifo",
+                "score": 0.14000000000000004
+            },
+            {
+                "task_id": "LIFObuffer",
+                "score": 0.5580250316070282
+            },
+            {
+                "task_id": "parallel2serial",
+                "score": 1.2991391034648634
+            },
+            {
+                "task_id": "pulse_detect",
+                "score": 0.7602258695979519
+            },
+            {
+                "task_id": "traffic_light",
+                "score": 0.19000000000000003
+            },
+            {
+                "task_id": "edge_detect",
+                "score": 2.276329363558092
+            },
+            {
+                "task_id": "synchronizer",
+                "score": 1.4999999999999996
+            },
+            {
+                "task_id": "width_8to16",
+                "score": 1.3940462851793902
+            },
+            {
+                "task_id": "calendar",
+                "score": 2.3504120294350175
+            },
+            {
+                "task_id": "serial2parallel",
+                "score": 0.2965045887097628
+            },
+            {
+                "task_id": "square_wave",
+                "score": 2.3475035241277746
+            },
+            {
+                "task_id": "signal_generator",
+                "score": 0.20000000000000004
+            },
+            {
+                "task_id": "RAM",
+                "score": 2.158834451308766
+            },
+            {
+                "task_id": "alu",
+                "score": 0.3446062682482897
+            },
+            {
+                "task_id": "instr_reg",
+                "score": 2.2581331029198473
+            },
+            {
+                "task_id": "ROM",
+                "score": 1.5478568063686666
+            },
+            {
+                "task_id": "clkgenerator",
+                "score": 0.9800000000000001
+            },
+            {
+                "task_id": "pe",
+                "score": 1.8587452767876331
+            },
+            {
+                "task_id": "freq_div",
+                "score": 1.3399999999999996
+            },
+            {
+                "task_id": "freq_divbyeven",
+                "score": 0.0
+            },
+            {
+                "task_id": "freq_divbyodd",
+                "score": 0.19000000000000003
+            },
+            {
+                "task_id": "freq_divbyfrac",
+                "score": 0.20000000000000004
+            },
+            {
+                "task_id": "radix2_div",
+                "score": 0.0
+            },
+            {
+                "task_id": "div_16bit",
+                "score": 0.48020640448481744
+            },
+            {
+                "task_id": "comparator_3bit",
+                "score": 1.4520210896309316
+            },
+            {
+                "task_id": "comparator_4bit",
+                "score": 1.3982455711079464
+            },
+            {
+                "task_id": "multi_8bit",
+                "score": 1.1709875141884223
+            },
+            {
+                "task_id": "multi_pipe_4bit",
+                "score": 1.8392046157645374
+            },
+            {
+                "task_id": "multi_booth_8bit",
+                "score": 1.2799999999999998
+            },
+            {
+                "task_id": "multi_16bit",
+                "score": 1.9865485222818073
+            },
+            {
+                "task_id": "multi_pipe_8bit",
+                "score": 0.6766425150683546
+            },
+            {
+                "task_id": "adder_bcd",
+                "score": 1.0095432491394298
+            },
+            {
+                "task_id": "adder_pipe_64bit",
+                "score": 0.9586606078543627
+            },
+            {
+                "task_id": "adder_16bit",
+                "score": 1.3596775295800847
+            },
+            {
+                "task_id": "adder_8bit",
+                "score": 1.4350846068175613
+            },
+            {
+                "task_id": "adder_32bit",
+                "score": 0.3337156444321819
+            },
+            {
+                "task_id": "accu",
+                "score": 1.7427110563933652
+            },
+            {
+                "task_id": "fixed_point_adder",
+                "score": 19.8469659461676
+            },
+            {
+                "task_id": "fixed_point_substractor",
+                "score": 4.141476912231504
+            },
+            {
+                "task_id": "float_multi",
+                "score": 0.15000000000000005
+            },
+            {
+                "task_id": "sub_64bit",
+                "score": 1.438284304767737
+            }
+        ]
+    }
+]

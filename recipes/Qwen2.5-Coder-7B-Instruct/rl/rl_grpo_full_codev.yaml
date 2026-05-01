@@ -1,0 +1,64 @@
+# Model arguments
+model_name_or_path: /root/autodl-tmp/ChipSeek-R1/output/Qwen2.5-Coder-7B-Instruct/sft/full_codev_r1
+model_revision: main
+torch_dtype: bfloat16
+attn_implementation: flash_attention_2
+
+# Data training arguments
+dataset_name: /root/autodl-tmp/ChipSeek-R1/data/codev_r1_rl
+# dataset_configs:
+# - default
+system_prompt: "You are a helpful assistant. The assistant first thinks about the reasoning process in the mind and then provides the user with the answer. The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags, respectively, i.e., <think>\nreasoning process here\n</think>\n<answer>\nanswer here\n</answer>. \u00a0Now the user asks you to write verilog code. After thinking, when you finally reach a conclusion, enclose the final verilog code in ```verilog ``` within <answer> </answer> tags. i.e., <answer>\n```verilog\nmodule top_module(in, out, ...) ...\n```\n</answer>."
+
+# GRPO trainer config
+beta: 0.001
+bf16: true
+use_vllm: true
+vllm_mode: "server"
+vllm_server_base_url: "http://127.0.0.1:8000"
+# vllm_device: auto
+vllm_gpu_memory_utilization: 0.90
+do_eval: false
+gradient_accumulation_steps: 4
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: true
+hub_model_id: Qwen2.5-7B-Verilog-sft-GRPO-ppa
+hub_strategy: every_save
+learning_rate: 8.0e-07
+log_completions: false
+log_level: info
+logging_first_step: true
+logging_steps: 1
+logging_strategy: steps
+lr_scheduler_type: cosine_with_min_lr
+lr_scheduler_kwargs:
+  min_lr_rate: 0.1
+# max_prompt_length: 1024
+vllm_max_model_length: 25600
+max_completion_length: 20000
+max_steps: -1
+num_generations: 6
+num_train_epochs: 2
+output_dir: /root/autodl-tmp/ChipSeek-R1/output/Qwen2.5-Coder-7B-Instruct/rl/grpo_full_codev_hierarchical_2
+overwrite_output_dir: true
+per_device_train_batch_size: 1
+push_to_hub: false
+report_to:
+- wandb
+reward_funcs:
+- verilog_code_codev_thread
+- format
+reward_weights:
+- 1.0
+- 0.2
+save_strategy: "steps"
+save_steps: 10000
+save_only_model: true
+save_total_limit: 1
+seed: 42
+temperature: 1.0
+warmup_ratio: 0.03
+
+# CUDA_VISIBLE_DEVICES=3 nohup trl vllm-serve --model /root/autodl-tmp/ChipSeek-R1/output/Qwen2.5-Coder-7B-Instruct/sft/full_codev_r1 --gpu-memory-utilization 0.90 --host 127.0.0.1 --port 8000 > vllm_server.log 2>&1 &
+# CUDA_VISIBLE_DEVICES=0,1,2 ACCELERATE_LOG_LEVEL=info nohup accelerate launch --config_file /root/autodl-tmp/ChipSeek-R1/recipes/accelerate_configs/zero3_1.yaml --num_processes=3 src/open_r1/grpo.py --config /root/autodl-tmp/ChipSeek-R1/recipes/Qwen2.5-Coder-7B-Instruct/rl/rl_grpo_full_codev.yaml > rl_train.log 2>&1 &

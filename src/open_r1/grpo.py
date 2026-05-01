@@ -37,7 +37,11 @@ from open_r1.rewards import (
     len_reward,
     reasoning_steps_reward,
     tag_count_reward,
-    get_verilog_format_reward
+    get_verilog_format_reward,
+    verilog_code_reward_codev,
+    verilog_code_reward_codev_ppa,
+    verilog_code_reward_codev_thread, 
+    verilog_code_reward_codev_ppa_thread
 )
 from open_r1.utils import get_tokenizer
 from open_r1.utils.callbacks import get_callbacks
@@ -180,6 +184,10 @@ def main(script_args, training_args, model_args):
         "verilog_code": verilog_code_reward,
         "code_format": get_code_format_reward(language=script_args.code_language),
         "tag_count": tag_count_reward,
+        "verilog_code_codev": verilog_code_reward_codev,
+        "verilog_code_codev_ppa": verilog_code_reward_codev_ppa,
+        "verilog_code_codev_thread": verilog_code_reward_codev_thread, 
+        "verilog_code_codev_ppa_thread": verilog_code_reward_codev_ppa_thread
     }
     reward_funcs = [REWARD_FUNCS_REGISTRY[func] for func in script_args.reward_funcs]
 

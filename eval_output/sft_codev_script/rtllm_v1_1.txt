@@ -1,0 +1,60 @@
+Successfully copied Original_problem to ./cache/Qwen-temp_1/RTLLM
+  0%|          | 0/580 [00:00<?, ?it/s]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t1
+  0%|          | 1/580 [00:15<2:27:41, 15.30s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t2
+  5%|▌         | 30/580 [00:37<10:18,  1.12s/it] Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t3
+ 10%|█         | 59/580 [01:33<13:47,  1.59s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t4
+ 15%|█▌        | 88/580 [02:49<16:49,  2.05s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t5
+ 20%|██        | 117/580 [04:15<18:37,  2.41s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t6
+ 25%|██▌       | 146/580 [05:44<19:11,  2.65s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t7
+ 30%|███       | 175/580 [07:02<17:56,  2.66s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t8
+ 35%|███▌      | 204/580 [08:23<16:56,  2.70s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t9
+ 40%|████      | 233/580 [09:35<15:15,  2.64s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t10
+ 45%|████▌     | 262/580 [10:47<13:44,  2.59s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t11
+ 50%|█████     | 291/580 [12:00<12:20,  2.56s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t12
+ 55%|█████▌    | 320/580 [13:12<11:00,  2.54s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t13
+ 60%|██████    | 349/580 [14:22<09:37,  2.50s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t14
+ 65%|██████▌   | 378/580 [15:32<08:21,  2.48s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t15
+ 70%|███████   | 407/580 [16:44<07:07,  2.47s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t16
+ 75%|███████▌  | 436/580 [18:00<06:02,  2.52s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t17
+ 80%|████████  | 465/580 [19:14<04:50,  2.53s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t18
+ 85%|████████▌ | 494/580 [20:29<03:38,  2.55s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t19
+ 90%|█████████ | 523/580 [21:46<02:27,  2.58s/it]Current working directory: /home/zjk/RTLLM_eval/CodeV-R1/test/testbench/RTLLM_v1.1
+t20
+ 95%|█████████▌| 552/580 [23:05<01:13,  2.62s/it]{'alu': {'syntax_success': 17, 'func_success': 4}, 'multi_pipe_4bit': {'syntax_success': 16, 'func_success': 15}, 'multi_booth_8bit': {'syntax_success': 20, 'func_success': 20}, 'calendar': {'syntax_success': 20, 'func_success': 20}, 'traffic_light': {'syntax_success': 18, 'func_success': 2}, 'edge_detect': {'syntax_success': 20, 'func_success': 20}, 'RAM': {'syntax_success': 15, 'func_success': 15}, 'JC_counter': {'syntax_success': 20, 'func_success': 20}, 'fsm': {'syntax_success': 19, 'func_success': 7}, 'serial2parallel': {'syntax_success': 20, 'func_success': 1}, 'adder_8bit': {'syntax_success': 20, 'func_success': 20}, 'asyn_fifo': {'syntax_success': 13, 'func_success': 0}, 'multi_pipe_8bit': {'syntax_success': 18, 'func_success': 2}, 'multi_16bit': {'syntax_success': 20, 'func_success': 18}, 'radix2_div': {'syntax_success': 0, 'func_success': 0}, 'right_shifter': {'syntax_success': 20, 'func_success': 20}, 'adder_pipe_64bit': {'syntax_success': 14, 'func_success': 7}, 'div_16bit': {'syntax_success': 18, 'func_success': 4}, 'freq_div': {'syntax_success': 20, 'func_success': 19}, 'counter_12': {'syntax_success': 20, 'func_success': 20}, 'signal_generator': {'syntax_success': 20, 'func_success': 3}, 'pulse_detect': {'syntax_success': 20, 'func_success': 0}, 'parallel2serial': {'syntax_success': 20, 'func_success': 6}, 'adder_16bit': {'syntax_success': 17, 'func_success': 17}, 'pe': {'syntax_success': 19, 'func_success': 19}, 'adder_32bit': {'syntax_success': 17, 'func_success': 3}, 'synchronizer': {'syntax_success': 20, 'func_success': 20}, 'accu': {'syntax_success': 20, 'func_success': 15}, 'width_8to16': {'syntax_success': 20, 'func_success': 7}}
+syntax pass@1: 0.8982758620689656,   func pass@1: 0.5586206896551724
+syntax pass@5: 0.9654549660154442,   func pass@5: 0.7725748194014448
+syntax pass@10: 0.9655172413793104,   func pass@10: 0.8523806981957937
+total_syntax_success: 28/29
+syntax pass rate = 0.9655172413793104
+total_func_success: 26/29
+func pass rate = 0.896551724137931
+*************采样计算*************************8
+总组合数: 15504
+{'alu': {'syntax_success': [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0]}, 'multi_pipe_4bit': {'syntax_success': [1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0]}, 'multi_booth_8bit': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, 'calendar': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, 'traffic_light': {'syntax_success': [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1], 'func_success': [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, 'edge_detect': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, 'RAM': {'syntax_success': [0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1], 'func_success': [0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1]}, 'JC_counter': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, 'fsm': {'syntax_success': [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1]}, 'serial2parallel': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]}, 'adder_8bit': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, 'asyn_fifo': {'syntax_success': [1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1], 'func_success': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, 'multi_pipe_8bit': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1], 'func_success': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]}, 'multi_16bit': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1]}, 'radix2_div': {'syntax_success': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 'func_success': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, 'right_shifter': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, 'adder_pipe_64bit': {'syntax_success': [1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0], 'func_success': [1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0]}, 'div_16bit': {'syntax_success': [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1], 'func_success': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1]}, 'freq_div': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1]}, 'counter_12': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, 'signal_generator': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]}, 'pulse_detect': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, 'parallel2serial': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0]}, 'adder_16bit': {'syntax_success': [1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0], 'func_success': [1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0]}, 'pe': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1]}, 'adder_32bit': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0], 'func_success': [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0]}, 'synchronizer': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}, 'accu': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1]}, 'width_8to16': {'syntax_success': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'func_success': [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0]}}
+syntax_mean: 0.9654549660154443
+syntax_std_dev: 0.0014641333224573155
+func_mean: 0.7725748194014448
+func_std_dev: 0.04987101379545563
+result_dic
+{'alu': {'syntax_success': 17, 'func_success': 4}, 'multi_pipe_4bit': {'syntax_success': 16, 'func_success': 15}, 'multi_booth_8bit': {'syntax_success': 20, 'func_success': 20}, 'calendar': {'syntax_success': 20, 'func_success': 20}, 'traffic_light': {'syntax_success': 18, 'func_success': 2}, 'edge_detect': {'syntax_success': 20, 'func_success': 20}, 'RAM': {'syntax_success': 15, 'func_success': 15}, 'JC_counter': {'syntax_success': 20, 'func_success': 20}, 'fsm': {'syntax_success': 19, 'func_success': 7}, 'serial2parallel': {'syntax_success': 20, 'func_success': 1}, 'adder_8bit': {'syntax_success': 20, 'func_success': 20}, 'asyn_fifo': {'syntax_success': 13, 'func_success': 0}, 'multi_pipe_8bit': {'syntax_success': 18, 'func_success': 2}, 'multi_16bit': {'syntax_success': 20, 'func_success': 18}, 'radix2_div': {'syntax_success': 0, 'func_success': 0}, 'right_shifter': {'syntax_success': 20, 'func_success': 20}, 'adder_pipe_64bit': {'syntax_success': 14, 'func_success': 7}, 'div_16bit': {'syntax_success': 18, 'func_success': 4}, 'freq_div': {'syntax_success': 20, 'func_success': 19}, 'counter_12': {'syntax_success': 20, 'func_success': 20}, 'signal_generator': {'syntax_success': 20, 'func_success': 3}, 'pulse_detect': {'syntax_success': 20, 'func_success': 0}, 'parallel2serial': {'syntax_success': 20, 'func_success': 6}, 'adder_16bit': {'syntax_success': 17, 'func_success': 17}, 'pe': {'syntax_success': 19, 'func_success': 19}, 'adder_32bit': {'syntax_success': 17, 'func_success': 3}, 'synchronizer': {'syntax_success': 20, 'func_success': 20}, 'accu': {'syntax_success': 20, 'func_success': 15}, 'width_8to16': {'syntax_success': 20, 'func_success': 7}}
+
+100%|██████████| 580/580 [23:06<00:00,  2.39s/it]

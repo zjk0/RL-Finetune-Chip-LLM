@@ -1,0 +1,11 @@
+### model
+model_name_or_path: Qwen/Qwen2.5-Coder-7B-Instruct
+adapter_name_or_path: /root/autodl-tmp/ChipSeek-R1/output/Qwen2.5-Coder-7B-Instruct/sft/lora_veri_thought
+template: qwen
+trust_remote_code: true
+
+### export
+export_dir: /root/autodl-tmp/ChipSeek-R1/output/Qwen2.5-Coder-7B-Instruct/merge_lora_veri_thought
+export_size: 5
+export_device: auto  # choices: [cpu, auto]
+export_legacy_format: false
