@@ -1,0 +1,460 @@
+[
+    {
+        "score": 1.2033686100340633,
+        "ppa_score": 0.5775490568412901,
+        "sysnthesis_success_rate": 0.545,
+        "ppa_success_rate": 0.477,
+        "detail": [
+            {
+                "task_id": "up_down_counter",
+                "score": 2.48523499178287,
+                "ppa_score": 1.0852349917828699,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 20,
+                "ppa_success_rate": 1.0
+            },
+            {
+                "task_id": "counter_12",
+                "score": 2.409320026606731,
+                "ppa_score": 1.0093200266067324,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 20,
+                "ppa_success_rate": 1.0
+            },
+            {
+                "task_id": "JC_counter",
+                "score": 2.0707996241780373,
+                "ppa_score": 1.0009407343271026,
+                "sysnthesis_success_count": 17,
+                "sysnthesis_success_rate": 0.85,
+                "ppa_success_count": 17,
+                "ppa_success_rate": 0.85
+            },
+            {
+                "task_id": "ring_counter",
+                "score": 2.3107330913234443,
+                "ppa_score": 0.9107330913234447,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 20,
+                "ppa_success_rate": 1.0
+            },
+            {
+                "task_id": "fsm",
+                "score": 0.635,
+                "ppa_score": 0.09999999999999999,
+                "sysnthesis_success_count": 7,
+                "sysnthesis_success_rate": 0.35,
+                "ppa_success_count": 7,
+                "ppa_success_rate": 0.35
+            },
+            {
+                "task_id": "sequence_detector",
+                "score": 0.0,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "LFSR",
+                "score": 0.0,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "right_shifter",
+                "score": 2.28,
+                "ppa_score": 1.0,
+                "sysnthesis_success_count": 19,
+                "sysnthesis_success_rate": 0.95,
+                "ppa_success_count": 19,
+                "ppa_success_rate": 0.95
+            },
+            {
+                "task_id": "barrel_shifter",
+                "score": 0.18000000000000005,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "asyn_fifo",
+                "score": 0.14000000000000004,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "LIFObuffer",
+                "score": 0.6921775080333794,
+                "ppa_score": 0.3072583601112649,
+                "sysnthesis_success_count": 6,
+                "sysnthesis_success_rate": 0.3,
+                "ppa_success_count": 6,
+                "ppa_success_rate": 0.3
+            },
+            {
+                "task_id": "parallel2serial",
+                "score": 0.9559996882237674,
+                "ppa_score": 1.0171419663536214,
+                "sysnthesis_success_count": 7,
+                "sysnthesis_success_rate": 0.35,
+                "ppa_success_count": 7,
+                "ppa_success_rate": 0.35
+            },
+            {
+                "task_id": "pulse_detect",
+                "score": 0.33426762501665575,
+                "ppa_score": 1.485352500333114,
+                "sysnthesis_success_count": 1,
+                "sysnthesis_success_rate": 0.05,
+                "ppa_success_count": 1,
+                "ppa_success_rate": 0.05
+            },
+            {
+                "task_id": "traffic_light",
+                "score": 0.4191636601532477,
+                "ppa_score": 0.9916366015324778,
+                "sysnthesis_success_count": 2,
+                "sysnthesis_success_rate": 0.1,
+                "ppa_success_count": 2,
+                "ppa_success_rate": 0.1
+            },
+            {
+                "task_id": "edge_detect",
+                "score": 2.098924783240192,
+                "ppa_score": 1.0118997109869232,
+                "sysnthesis_success_count": 19,
+                "sysnthesis_success_rate": 0.95,
+                "ppa_success_count": 15,
+                "ppa_success_rate": 0.75
+            },
+            {
+                "task_id": "synchronizer",
+                "score": 1.4099999999999997,
+                "ppa_score": 0.1,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 2,
+                "ppa_success_rate": 0.1
+            },
+            {
+                "task_id": "width_8to16",
+                "score": 1.0790382803642053,
+                "ppa_score": 0.9975957009105139,
+                "sysnthesis_success_count": 8,
+                "sysnthesis_success_rate": 0.4,
+                "ppa_success_count": 8,
+                "ppa_success_rate": 0.4
+            },
+            {
+                "task_id": "calendar",
+                "score": 2.3866320284834734,
+                "ppa_score": 0.9866320284834738,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 20,
+                "ppa_success_rate": 1.0
+            },
+            {
+                "task_id": "serial2parallel",
+                "score": 0.3074272290876913,
+                "ppa_score": 0.948544581753825,
+                "sysnthesis_success_count": 1,
+                "sysnthesis_success_rate": 0.05,
+                "ppa_success_count": 1,
+                "ppa_success_rate": 0.05
+            },
+            {
+                "task_id": "square_wave",
+                "score": 2.2730389653131065,
+                "ppa_score": 0.9821462792769545,
+                "sysnthesis_success_count": 19,
+                "sysnthesis_success_rate": 0.95,
+                "ppa_success_count": 19,
+                "ppa_success_rate": 0.95
+            },
+            {
+                "task_id": "signal_generator",
+                "score": 0.20000000000000004,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "RAM",
+                "score": 2.0789330153703838,
+                "ppa_score": 1.1111662692129807,
+                "sysnthesis_success_count": 17,
+                "sysnthesis_success_rate": 0.85,
+                "ppa_success_count": 16,
+                "ppa_success_rate": 0.8
+            },
+            {
+                "task_id": "alu",
+                "score": 0.3850932287979294,
+                "ppa_score": 0.4509322879792943,
+                "sysnthesis_success_count": 4,
+                "sysnthesis_success_rate": 0.2,
+                "ppa_success_count": 2,
+                "ppa_success_rate": 0.1
+            },
+            {
+                "task_id": "instr_reg",
+                "score": 2.34651050554508,
+                "ppa_score": 0.9465105055450801,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 20,
+                "ppa_success_rate": 1.0
+            },
+            {
+                "task_id": "ROM",
+                "score": 1.9329917775420438,
+                "ppa_score": 0.532991777542044,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 20,
+                "ppa_success_rate": 1.0
+            },
+            {
+                "task_id": "clkgenerator",
+                "score": 0.86,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 3,
+                "sysnthesis_success_rate": 0.15,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "pe",
+                "score": 2.1719081131152995,
+                "ppa_score": 0.7719081131153003,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 20,
+                "ppa_success_rate": 1.0
+            },
+            {
+                "task_id": "freq_div",
+                "score": 1.3999999999999997,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "freq_divbyeven",
+                "score": 0.0,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "freq_divbyodd",
+                "score": 0.20000000000000004,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "freq_divbyfrac",
+                "score": 0.19000000000000003,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "radix2_div",
+                "score": 0.0,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "div_16bit",
+                "score": 0.493150037912906,
+                "ppa_score": 0.0926001516516249,
+                "sysnthesis_success_count": 5,
+                "sysnthesis_success_rate": 0.25,
+                "ppa_success_count": 5,
+                "ppa_success_rate": 0.25
+            },
+            {
+                "task_id": "comparator_3bit",
+                "score": 1.6915166321163564,
+                "ppa_score": 0.38054382328037545,
+                "sysnthesis_success_count": 19,
+                "sysnthesis_success_rate": 0.95,
+                "ppa_success_count": 19,
+                "ppa_success_rate": 0.95
+            },
+            {
+                "task_id": "comparator_4bit",
+                "score": 1.72494414356635,
+                "ppa_score": 0.4052043616487894,
+                "sysnthesis_success_count": 19,
+                "sysnthesis_success_rate": 0.95,
+                "ppa_success_count": 19,
+                "ppa_success_rate": 0.95
+            },
+            {
+                "task_id": "multi_8bit",
+                "score": 1.4955322834564835,
+                "ppa_score": 0.23948031495164843,
+                "sysnthesis_success_count": 18,
+                "sysnthesis_success_rate": 0.9,
+                "ppa_success_count": 18,
+                "ppa_success_rate": 0.9
+            },
+            {
+                "task_id": "multi_pipe_4bit",
+                "score": 1.6882221608939791,
+                "ppa_score": 0.9974602298485413,
+                "sysnthesis_success_count": 14,
+                "sysnthesis_success_rate": 0.7,
+                "ppa_success_count": 14,
+                "ppa_success_rate": 0.7
+            },
+            {
+                "task_id": "multi_booth_8bit",
+                "score": 1.3999999999999997,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "multi_16bit",
+                "score": 1.9263343310499903,
+                "ppa_score": 0.9704179138124881,
+                "sysnthesis_success_count": 16,
+                "sysnthesis_success_rate": 0.8,
+                "ppa_success_count": 16,
+                "ppa_success_rate": 0.8
+            },
+            {
+                "task_id": "multi_pipe_8bit",
+                "score": 0.29092828544873817,
+                "ppa_score": 1.0185657089747615,
+                "sysnthesis_success_count": 1,
+                "sysnthesis_success_rate": 0.05,
+                "ppa_success_count": 1,
+                "ppa_success_rate": 0.05
+            },
+            {
+                "task_id": "adder_bcd",
+                "score": 1.534523923788317,
+                "ppa_score": 0.30502658198701904,
+                "sysnthesis_success_count": 18,
+                "sysnthesis_success_rate": 0.9,
+                "ppa_success_count": 18,
+                "ppa_success_rate": 0.9
+            },
+            {
+                "task_id": "adder_pipe_64bit",
+                "score": 1.183213628270447,
+                "ppa_score": 1.029363618378771,
+                "sysnthesis_success_count": 9,
+                "sysnthesis_success_rate": 0.45,
+                "ppa_success_count": 9,
+                "ppa_success_rate": 0.45
+            },
+            {
+                "task_id": "adder_16bit",
+                "score": 1.3666618809257305,
+                "ppa_score": 0.30832735115716287,
+                "sysnthesis_success_count": 16,
+                "sysnthesis_success_rate": 0.8,
+                "ppa_success_count": 16,
+                "ppa_success_rate": 0.8
+            },
+            {
+                "task_id": "adder_8bit",
+                "score": 1.7256596990757305,
+                "ppa_score": 0.32565969907573056,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 20,
+                "ppa_success_rate": 1.0
+            },
+            {
+                "task_id": "adder_32bit",
+                "score": 0.1938409405987811,
+                "ppa_score": 0.47681881197562187,
+                "sysnthesis_success_count": 1,
+                "sysnthesis_success_rate": 0.05,
+                "ppa_success_count": 1,
+                "ppa_success_rate": 0.05
+            },
+            {
+                "task_id": "accu",
+                "score": 1.7628109455437848,
+                "ppa_score": 0.7535136819297312,
+                "sysnthesis_success_count": 16,
+                "sysnthesis_success_rate": 0.8,
+                "ppa_success_count": 16,
+                "ppa_success_rate": 0.8
+            },
+            {
+                "task_id": "fixed_point_adder",
+                "score": 1.8207378830211405,
+                "ppa_score": 1.2010541186016295,
+                "sysnthesis_success_count": 14,
+                "sysnthesis_success_rate": 0.7,
+                "ppa_success_count": 14,
+                "ppa_success_rate": 0.7
+            },
+            {
+                "task_id": "fixed_point_substractor",
+                "score": 1.7695274794373042,
+                "ppa_score": 2.2878388431940087,
+                "sysnthesis_success_count": 9,
+                "sysnthesis_success_rate": 0.45,
+                "ppa_success_count": 9,
+                "ppa_success_rate": 0.45
+            },
+            {
+                "task_id": "float_multi",
+                "score": 0.13000000000000003,
+                "ppa_score": 0,
+                "sysnthesis_success_count": 0,
+                "sysnthesis_success_rate": 0.0,
+                "ppa_success_count": 0,
+                "ppa_success_rate": 0.0
+            },
+            {
+                "task_id": "sub_64bit",
+                "score": 1.7376321044195848,
+                "ppa_score": 0.3376321044195844,
+                "sysnthesis_success_count": 20,
+                "sysnthesis_success_rate": 1.0,
+                "ppa_success_count": 20,
+                "ppa_success_rate": 1.0
+            }
+        ]
+    }
+]

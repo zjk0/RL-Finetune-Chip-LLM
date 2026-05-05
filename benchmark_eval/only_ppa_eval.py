@@ -141,7 +141,7 @@ def compute_score(completions_info):
             if ppa_result["sysnthesis"] == True:
                 # score_list[i] += 0.4
                 if ppa_result["power"] != -1 and ppa_result["performance"] != -1 and ppa_result["area"] != -1:
-                    if reference_ppa["power"] * reference_ppa["performance"] * reference_ppa["area"] == 0:
+                    if reference_ppa["power"] * reference_ppa["performance"] * reference_ppa["area"] <= 0:
                         score_list.append(0.1)
                     elif reference_ppa["power"] * reference_ppa["performance"] * reference_ppa["area"] > 0:
                         if ppa_result["power"] * ppa_result["performance"] * ppa_result["area"] != 0:
@@ -152,8 +152,6 @@ def compute_score(completions_info):
                             value = power_ratio * performance_ratio * area_ratio
                             value_geo_mean = value ** (1 / 3)
                             score_list.append(max(0.01, min(value_geo_mean - 1.0, 0.6)))
-                    else:
-                        score_list.append(1.0)
                                 
     return score_list
         

@@ -115,6 +115,9 @@ def ppa_compute(code_folder, verilog_code, log = False):
         
 def compute_score(completions_info):
     score_list = [0.0] * len(completions_info["info"])
+    ppa_score_list = [0.0] * len(completions_info["info"])
+    sysnthesis_success_count = 0
+    ppa_success_count = 0
     
     ppa_folder = "/root/autodl-tmp/ChipSeek-R1/benchmark_eval/ppa_eval"
     os.makedirs(ppa_folder, exist_ok = True)
@@ -140,10 +143,13 @@ def compute_score(completions_info):
             i = futures[future]
             ppa_result = future.result()
             if ppa_result["sysnthesis"] == True:
+                sysnthesis_success_count += 1
                 score_list[i] += 0.4
                 if ppa_result["power"] != -1 and ppa_result["performance"] != -1 and ppa_result["area"] != -1:
-                    if reference_ppa["power"] * reference_ppa["performance"] * reference_ppa["area"] == 0:
+                    ppa_success_count += 1
+                    if reference_ppa["power"] * reference_ppa["performance"] * reference_ppa["area"] <= 0:
                         score_list[i] += 0.1
+                        ppa_score_list[i] = 0.1
                     elif reference_ppa["power"] * reference_ppa["performance"] * reference_ppa["area"] > 0:
                         if ppa_result["power"] * ppa_result["performance"] * ppa_result["area"] != 0:
                             power_ratio = reference_ppa["power"] / ppa_result["power"]
@@ -151,11 +157,12 @@ def compute_score(completions_info):
                             area_ratio = reference_ppa["area"] / ppa_result["area"]
                             value = power_ratio * performance_ratio * area_ratio
                             value_geo_mean = value ** (1 / 3)
-                            score_list[i] += max(0.01, min(value_geo_mean - 1.0, 0.6))
-                    else:
-                        score_list[i] += 1.0
+                            score_list[i] += value_geo_mean
+                            ppa_score_list[i] = value_geo_mean
+                            # score_list[i] += max(0.01, min(value_geo_mean - 1.0, 0.6))
+                            # ppa_score_list[i] = max(0.01, min(value_geo_mean - 1.0, 0.6))
                                 
-    return score_list
+    return score_list, ppa_score_list, sysnthesis_success_count, ppa_success_count
         
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -201,19 +208,40 @@ def main():
     
     name_and_score = []
     score_list = []
+    ppa_score_list = []
+    sysnthesis_success_count = 0
+    ppa_success_count = 0
     for completions_info in tqdm(completions_info_list):
-        completions_score_list = compute_score(completions_info)
+        completions_score_list, completions_ppa_score_list, completions_sysnthesis_success_count, completions_ppa_success_count = compute_score(completions_info)
         completions_score = np.mean(completions_score_list)
-        # completions_score = max(completions_score_list)
+        correct_ppa_score = []
+        for ppa_score in completions_ppa_score_list:
+            if ppa_score > 0:
+                correct_ppa_score.append(ppa_score)
+        completions_ppa_score = np.mean(correct_ppa_score) if len(correct_ppa_score) > 0 else 0
         name_and_score.append({
             "task_id": completions_info["task_id"], 
-            "score": completions_score
+            "score": completions_score,
+            "ppa_score": completions_ppa_score,
+            "sysnthesis_success_count": completions_sysnthesis_success_count,
+            "sysnthesis_success_rate": completions_sysnthesis_success_count / 20,
+            "ppa_success_count": completions_ppa_success_count,
+            "ppa_success_rate": completions_ppa_success_count / 20
         })
         score_list.append(completions_score)
+        ppa_score_list.append(completions_ppa_score)
+        sysnthesis_success_count += completions_sysnthesis_success_count
+        ppa_success_count += completions_ppa_success_count
         
     final_score = np.mean(score_list)
+    final_ppa_score = np.mean(ppa_score_list)
+    sysnthesis_success_rate = sysnthesis_success_count / 1000
+    ppa_success_rate = ppa_success_count / 1000
     score_info = [{
         "score": final_score, 
+        "ppa_score": final_ppa_score,
+        "sysnthesis_success_rate": sysnthesis_success_rate,
+        "ppa_success_rate": ppa_success_rate,
         "detail": name_and_score
     }]
         
