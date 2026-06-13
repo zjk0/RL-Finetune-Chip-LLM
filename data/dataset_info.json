@@ -1,0 +1,35 @@
+{
+    "verilog_data_sft": {
+        "file_name": "/path/to/verilog_data_sft_file/in_alpaca_format.jsonl"
+    }, 
+    "KSU-HW-SEC-Verilog_code": {
+        "file_name": "KSU-HW-SEC-Verilog_code.json"
+    },
+    "mg-verilog": {
+        "file_name": "mg-verilog.json"
+    },
+    "hf_complete_trainset": {
+        "file_name": "hf_complete_trainset.jsonl"
+    },
+    "lf_complete_trainset_reasoning": {
+        "file_name": "lf_complete_trainset_reasoning.jsonl"
+    },
+    "new_lf_complete_trainset_reasoning": {
+        "file_name": "new_lf_complete_trainset_reasoning.json"
+    },
+    "veri_thought": {
+        "file_name": "veri_thought.json"
+    },
+    "codev_r1_sft": {
+        "file_name": "codev_r1_sft.jsonl"
+    },
+    "codev_r1_sft_formated": {
+        "file_name": "codev_r1_sft_formated.json",
+        "columns": {
+            "prompt": "instruction",
+            "query": "input",
+            "response": "output",
+            "system": "system"
+        }
+    }
+}
