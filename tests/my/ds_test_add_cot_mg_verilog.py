@@ -3,6 +3,7 @@ import json
 import re
 from tqdm import tqdm
 from transformers import pipeline
+import os
 
 def find_module_name(text: str):
     bound_1 = "Module header:"
@@ -129,7 +130,7 @@ def DeepSeek(prompt):
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer sk-5b13a90466bf48c9af7f477a4d6bac8e'
+        'Authorization': f'Bearer {os.getenv("DEEPSEEK_API_KEY")}'
     }
 
     success = False
@@ -185,7 +186,7 @@ def DeepSeek(prompt):
 # headers = {
 #   'Content-Type': 'application/json',
 #   'Accept': 'application/json',
-#   'Authorization': 'Bearer sk-5b13a90466bf48c9af7f477a4d6bac8e'
+#   'Authorization': f'Bearer {os.getenv("DEEPSEEK_API_KEY")}'
 # }
 
 # response = requests.request("POST", url, headers=headers, data=payload)

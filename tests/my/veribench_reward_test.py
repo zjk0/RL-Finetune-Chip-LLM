@@ -82,7 +82,7 @@ if __name__ == "__main__":
     question = data_list[index]["question"]
     testbench = data_list[index]["testbench"]
 
-    client = OpenAI(api_key="sk-5b13a90466bf48c9af7f477a4d6bac8e", base_url="https://api.deepseek.com")
+    client = OpenAI(api_key=os.getenv("DEEPSEEK_API_KEY"), base_url="https://api.deepseek.com")
 
     verilog_code_list = []
     for _ in tqdm(range(2)):
